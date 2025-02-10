@@ -38,7 +38,7 @@ pico_sdk_init()
 add_executable(bitDogInterface 
                 bitDogInterface.c 
                 include/modules/font.c
-                include/modules/func_generals.c
+              
                 include/modules/numbers_n_array.c
                 include/modules/ssd1306.c
                 )
@@ -55,7 +55,10 @@ pico_enable_stdio_usb(bitDogInterface 1)
 
 # Add the standard library to the build
 target_link_libraries(bitDogInterface
-        pico_stdlib)
+        pico_stdlib
+        pico_stdio
+        pico_stdio_usb 
+        )
 
 # Add the standard include files to the build
 target_include_directories(bitDogInterface PRIVATE
@@ -63,13 +66,21 @@ target_include_directories(bitDogInterface PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}/include
         ${CMAKE_CURRENT_LIST_DIR}/include/modules
         ${CMAKE_CURRENT_LIST_DIR}/include/libraries
+        ${CMAKE_CURRENT_LIST_DIR}/build
+
 )
 
 # Add any user requested libraries
 target_link_libraries(bitDogInterface 
-        hardware_i2c
-        hardware_pio
-        
+                    pico_stdlib 
+                    hardware_i2c 
+                    hardware_pio 
+                    hardware_uart 
+                    hardware_timer 
+                    hardware_clocks
+                    hardware_pwm 
+                    pico_bootrom 
+                    tinyusb_device
         )
 
 pico_add_extra_outputs(bitDogInterface)

@@ -1,3 +1,6 @@
+#ifndef SSD1306_H
+#define SSD1306_H
+
 #include <stdlib.h>
 #include "pico/stdlib.h"
 #include "hardware/i2c.h"
@@ -45,5 +48,10 @@ void ssd1306_rect(ssd1306_t *ssd, uint8_t top, uint8_t left, uint8_t width, uint
 void ssd1306_line(ssd1306_t *ssd, uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, bool value);
 void ssd1306_hline(ssd1306_t *ssd, uint8_t x0, uint8_t x1, uint8_t y, bool value);
 void ssd1306_vline(ssd1306_t *ssd, uint8_t x, uint8_t y0, uint8_t y1, bool value);
-void ssd1306_draw_char(ssd1306_t *ssd, char c, uint8_t x, uint8_t y);
-void ssd1306_draw_string(ssd1306_t *ssd, const char *str, uint8_t x, uint8_t y);
+uint8_t ssd1306_draw_char(ssd1306_t *ssd, char c, uint8_t x, uint8_t y);
+void ssd1306_draw_string(ssd1306_t *ssd, const char *str, uint8_t *x_, uint8_t *y_);
+
+
+
+
+#endif // SSD1306_H

@@ -40,6 +40,12 @@
         "*.embeddedhtml": "html",
         "numbers_n_array.h": "c",
         "font.h": "c",
-        "ssd1306.h": "c"
+        "ssd1306.h": "c",
+        "timer.h": "c",
+        "clocks.h": "c",
+        "stdint.h": "c",
+        "stdio.h": "c",
+        "func_generals.h": "c",
+        "i2c.h": "c"
     }
 }
