@@ -89,7 +89,7 @@ Para compilar e executar este projeto, você precisará:
 
 Veja uma demonstração em vídeo do funcionamento do projeto no YouTube:
 
-[**Assista à Demonstração no YouTube**](https://youtube.com/live/SEU-VIDEO-LINK)
+[**Assista à Demonstração no YouTube**](https://www.youtube.com/live/7H03ePpwC-s)
 
 ---
 
