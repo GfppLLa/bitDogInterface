@@ -25,6 +25,7 @@ endif()
 # ====================================================================================
 set(PICO_BOARD pico_w CACHE STRING "Board type")
 
+
 # Pull in Raspberry Pi Pico SDK (must be before project)
 include(pico_sdk_import.cmake)
 
@@ -53,11 +54,11 @@ pico_generate_pio_header(bitDogInterface ${CMAKE_CURRENT_LIST_DIR}/pio_matrix.pi
 pico_enable_stdio_uart(bitDogInterface 0)
 pico_enable_stdio_usb(bitDogInterface 1)
 
+
 # Add the standard library to the build
 target_link_libraries(bitDogInterface
         pico_stdlib
         pico_stdio
-        pico_stdio_usb 
         )
 
 # Add the standard include files to the build
@@ -80,7 +81,7 @@ target_link_libraries(bitDogInterface
                     hardware_clocks
                     hardware_pwm 
                     pico_bootrom 
-                    tinyusb_device
+                 
         )
 
 pico_add_extra_outputs(bitDogInterface)

@@ -2,26 +2,26 @@
 #include <stdint.h>
 #include "hardware/clocks.h" // Inclua o cabeçalho correto
 #include <stdio.h>                // Para operações de entrada/saída
-#include <stdint.h>
-#include<stdbool.h>
+//#include <stdint.h>
+#include <stdbool.h>
 #include <math.h>
 #include "pico/stdlib.h"           // Biblioteca padrão da Raspberry Pi Pico
 #include "hardware/i2c.h"          // Biblioteca para comunicação I2C
-#include "pico/stdio_usb.h"
-#include "hardware/uart.h"         // Biblioteca para comunicação UART
+//#include "pico/stdio_usb.h"
+//#include "hardware/uart.h"         // Biblioteca para comunicação UART
 #include "hardware/timer.h"        // Biblioteca para uso de timers
 #include "pico/bootrom.h"          // Biblioteca para manipulação do bootrom (bootloader)
 #include "hardware/pwm.h"          // Biblioteca para controle de PWM
 #include "pico/time.h"             // Biblioteca para manipulação de tempo
 #include "pio_matrix.pio.h"
-#include "hardware/clocks.h"
-#include "hardware/structs/clocks.h"
+//#include "hardware/clocks.h"
+//#include "hardware/structs/clocks.h"
+//#include "tusb.h"
 
 #include "include/libraries/ssd1306.h"      // Biblioteca do display SSD1306
 //
 #include "include/libraries/numbers_n_array.h"  // Biblioteca auxiliar de números e arrays
 #include "include/libraries/font.h"        // Biblioteca de fontes
-#include "include/libraries/func_generals.h"  // Funções gerais auxiliares
 
 // Definições de macros
 #define LED_RED 13            // Definição do pino do LED vermelho
@@ -90,12 +90,9 @@ void liga_azul(int estado);                           // Função para controlar
 void entrarModoBootloader();    
 
 void entrarModoBootloaderDois();
-// Em func_generals.h:
 void tocar_tom_buzzer(uint16_t frequency, uint32_t duration_ms);
-
 void acende_led();
 uint32_t matrix_rgbFlag(double number);
-
 void ligar_todos_os_leds();
 void desliga_tudo();
 void debounce();
@@ -172,12 +169,8 @@ void mensagem_caracter(ssd1306_t *ssd){//se iniciado repetir o ultimo char
 }
 void inicia_hardware()
 {
-    //inicializa pio
 
     init_pio_routine();
-    stdio_init_all();
-   // stdio_usb_init();
-    //inicializa leds 11 
     gpio_init(LED_RED);
     gpio_set_dir(LED_RED, GPIO_OUT);
     gpio_init(LED_GREEN);
@@ -267,6 +260,8 @@ void init_pio_routine()
 
 int main()
 {
+    stdio_init_all();
+    sleep_ms(1000);
     inicia_hardware();
     sleep_ms(50);
     boas_vindas(&ssd);
@@ -292,7 +287,7 @@ int main()
                     printf("\n\nlido: '%c'\n", leitura_UART);
                     if(leitura_UART<=48&&leitura_UART>=57)
                     {
-                        numero_display=leitura_UART;
+                        numero_display=(int)leitura_UART;
                         atualiza_matrix(numero_display);
                     }else if((leitura_UART>=65&&leitura_UART<=90)||(leitura_UART>=97&&leitura_UART<=122))
                     {
