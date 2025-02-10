@@ -84,7 +84,7 @@ bool verificador_serial();                             // Função para verifica
 void init_pio_routine();                               // Função para inicializar o PIO e suas rotinas
 void mensagem_serial(ssd1306_t *ssd);                  // Função para mostrar mensagem no display via UART
 void mensagem_caracter(ssd1306_t *ssd);                // Função para mostrar um caractere no display
-void atualiza_matrix(uint numero_display);                                // Função para atualizar a matriz do display
+void atualiza_matrix();                                // Função para atualizar a matriz do display
 void liga_verde(int estado);                          // Função para controlar o LED verde
 void liga_azul(int estado);                           // Função para controlar o LED azul
 void entrarModoBootloader();    
@@ -97,7 +97,7 @@ void ligar_todos_os_leds();
 void desliga_tudo();
 void debounce();
 void boas_vindas();
-
+void mensagem_bootloader(ssd1306_t *ssd);
 //trata as interrupções
 void tratar_botoes(uint gpio, uint32_t events)
 {
@@ -147,10 +147,11 @@ void tratar_botoes(uint gpio, uint32_t events)
 }
 void boas_vindas(ssd1306_t *ssd)
 {
-  ssd1306_draw_string(ssd,"insira   ",4,15); 
-  ssd1306_draw_string(ssd,"0 a 9 matriz",4,25);
-  ssd1306_draw_string(ssd," A verde",4,35);
-  ssd1306_draw_string(ssd,"B  vzul",4,45);
+  ssd1306_fill(ssd,false); //Limpa display
+  ssd1306_rect(ssd,3,3,122,58,true,false); //Desenha retângulo
+  ssd1306_draw_string(ssd,"   gleison",4,25); 
+  ssd1306_draw_string(ssd,"   embarcatech",4,45);
+
   ssd1306_send_data(ssd); //Atualiza o display
 }
 
@@ -163,9 +164,17 @@ void mensagem_serial(ssd1306_t *ssd){//informar para iniciar o serial
 void mensagem_caracter(ssd1306_t *ssd){//se iniciado repetir o ultimo char
   ssd1306_fill(ssd,!cor); //Limpa display
   ssd1306_rect(ssd,3,3,122,58,cor,!cor); //Desenha retângulo
-  ssd1306_draw_string(ssd,"inserido: ",8,30); 
+  ssd1306_draw_string(ssd,"INSERIDO ",15,30); 
   ssd1306_draw_char(ssd,leitura_UART,90,30); //Imprime o caracter lido
   ssd1306_send_data(ssd); //Atualiza o display
+}
+void mensagem_bootloader(ssd1306_t *ssd)
+{
+    ssd1306_fill(ssd,false); //Limpa display
+    ssd1306_rect(ssd,3,3,122,58,true,false); //Desenha retângulo
+    ssd1306_draw_string(ssd,"   PICO",4,25); 
+    ssd1306_draw_string(ssd,"   BOOTLOADER",4,45);
+    ssd1306_send_data(ssd); //Atualiza o display
 }
 void inicia_hardware()
 {
@@ -285,10 +294,10 @@ int main()
             leitura_UART=(char)teste_usb_leitura;
             
                     printf("\n\nlido: '%c'\n", leitura_UART);
-                    if(leitura_UART<=48&&leitura_UART>=57)
+                    if(leitura_UART>=48&&leitura_UART<=57)
                     {
-                        numero_display=(int)leitura_UART;
-                        atualiza_matrix(numero_display);
+                        numero_display=leitura_UART-'0';
+                        atualiza_matrix();
                     }else if((leitura_UART>=65&&leitura_UART<=90)||(leitura_UART>=97&&leitura_UART<=122))
                     {
                         mensagem_caracter(&ssd);
@@ -316,6 +325,7 @@ int main()
         //saida_teste bootloader
         if(saida_teste==1)
         {
+            mensagem_bootloader(&ssd);
             entrarModoBootloader();
         }
 
@@ -497,7 +507,7 @@ void debounce()
     sleep_ms(50);
 }
 //atualiza_matrix
-void atualiza_matrix(uint numero_display)
+void atualiza_matrix()
 {
  uint32_t valor_led = 0;
 
