@@ -66,7 +66,7 @@ int randon = 0;                              // Variável auxiliar para valores 
 static bool randonTwo = 0;                   // Outra variável auxiliar para aleatoriedade
 volatile _Atomic char leitura_UART;          // Variável para leitura de dados via UART
 absolute_time_t debounce_do_serial;          // Tempo para debounce do serial
-
+volatile _Atomic uint novotesteinutil=0;
 // PIO e controle de estado da máquina
 PIO pio_controlador = pio0;                  // Definição do controlador PIO
 bool status_init_pio = false;                // Flag para status de inicialização do PIO
@@ -98,11 +98,13 @@ void desliga_tudo();
 void debounce();
 void boas_vindas();
 void mensagem_bootloader(ssd1306_t *ssd);
+void mensagem_azul(ssd1306_t *ssd);
+void mensagem_verde(ssd1306_t *ssd);
 //trata as interrupções
 void tratar_botoes(uint gpio, uint32_t events)
 {
     //debounce();
-    
+    novotesteinutil=1;
       hora_presente = to_us_since_boot(get_absolute_time());
     if(gpio==BOTAO_A)
     {
@@ -171,9 +173,27 @@ void mensagem_caracter(ssd1306_t *ssd){//se iniciado repetir o ultimo char
 void mensagem_bootloader(ssd1306_t *ssd)
 {
     ssd1306_fill(ssd,false); //Limpa display
+    sleep_ms(500);
     ssd1306_rect(ssd,3,3,122,58,true,false); //Desenha retângulo
     ssd1306_draw_string(ssd,"   PICO",4,25); 
     ssd1306_draw_string(ssd,"   BOOTLOADER",4,45);
+    ssd1306_send_data(ssd); //Atualiza o display
+}
+void mensagem_azul(ssd1306_t *ssd)
+{
+    ssd1306_fill(ssd,false); //Limpa display
+    sleep_ms(500);
+    ssd1306_rect(ssd,3,3,122,58,true,false); //Desenha retângulo
+    ssd1306_draw_string(ssd,"   LED AZUL",4,25); 
+    ssd1306_draw_string(ssd,"   BOTAO B",4,45);
+    ssd1306_send_data(ssd); //Atualiza o display
+}
+void mensagem_verde(ssd1306_t *ssd)
+{
+    ssd1306_fill(ssd,false); //Limpa display
+    ssd1306_rect(ssd,3,3,122,58,true,false); //Desenha retângulo
+    ssd1306_draw_string(ssd,"   LED  VERDE",4,25); 
+    ssd1306_draw_string(ssd,"   BOTAO A",4,45);
     ssd1306_send_data(ssd); //Atualiza o display
 }
 void inicia_hardware()
@@ -283,7 +303,7 @@ int main()
     //mensagem_serial(&ssd);
     while (true) 
     {
-        sleep_ms(1000);
+        sleep_ms(100);
         //mensagem_serial(&ssd);
         printf("\n\nleitura do terminal\n\n");
         int teste_usb_leitura=stdio_getchar_timeout_us(0);
@@ -307,20 +327,34 @@ int main()
         }sleep_ms(40);
         atualiza_matrix(numero_display);
         //sobe_um botao a
-        if(sobe_um==1)
+        if(novotesteinutil==1)
         {
-            liga_verde(1);
-        }else if(sobe_um==0)
-        {
-            liga_verde(0);
-        }
-        //desce_um botao b
-        if(desce_um==1)
-        {
-            liga_azul(1);
-        }else if(desce_um==0)
-        {
-            liga_azul(0);
+            if(sobe_um==1)
+            {
+                liga_verde(1);
+                mensagem_verde(&ssd);
+            }else if(sobe_um==0)
+            {
+                liga_verde(0);
+                //mensagem_verde(&ssd);
+            }
+            //desce_um botao b
+            if(desce_um==1)
+            {
+                liga_azul(1);
+                mensagem_azul(&ssd);
+            }else if(desce_um==0)
+            {
+                liga_azul(0);
+                //mensagem_azul(&ssd);
+
+            }
+            novotesteinutil=0;
+            if(desce_um==0&&sobe_um==0)
+            {
+
+                boas_vindas(&ssd);
+            }
         }
         //saida_teste bootloader
         if(saida_teste==1)
