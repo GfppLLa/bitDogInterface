@@ -147,7 +147,7 @@ void tratar_botoes(uint gpio, uint32_t events)
 }
 void boas_vindas(ssd1306_t *ssd)
 {
-  ssd1306_draw_string(ssd,"insira:  ; ",4,15); 
+  ssd1306_draw_string(ssd,"insira   ",4,15); 
   ssd1306_draw_string(ssd,"0 a 9 matriz",4,25);
   ssd1306_draw_string(ssd," A verde",4,35);
   ssd1306_draw_string(ssd,"B  vzul",4,45);
@@ -163,7 +163,7 @@ void mensagem_serial(ssd1306_t *ssd){//informar para iniciar o serial
 void mensagem_caracter(ssd1306_t *ssd){//se iniciado repetir o ultimo char
   ssd1306_fill(ssd,!cor); //Limpa display
   ssd1306_rect(ssd,3,3,122,58,cor,!cor); //Desenha retângulo
-  ssd1306_draw_string(ssd,"char inserido: ",8,30); 
+  ssd1306_draw_string(ssd,"inserido: ",8,30); 
   ssd1306_draw_char(ssd,leitura_UART,90,30); //Imprime o caracter lido
   ssd1306_send_data(ssd); //Atualiza o display
 }
