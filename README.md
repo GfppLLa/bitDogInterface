@@ -45,8 +45,8 @@ Para compilar e executar este projeto, você precisará:
 
 1. **Clonar o repositório**
     ```bash
-    git clone https://github.com/seu-usuario/nome-do-repositorio.git
-    cd nome-do-repositorio
+    git clone https://github.com/seu-usuario/bitDogInterface.git
+    cd bitDogInterface
     ```
 
 2. **Criar diretório para build**
@@ -77,11 +77,11 @@ Para compilar e executar este projeto, você precisará:
 
 ## Estrutura do Projeto
 
-1. `src/`: Contém o código-fonte do projeto.
-2. `include/`: Contém os arquivos de cabeçalho (.h).
-3. `build/`: Diretório de saída dos binários.
-4. `CMakeLists.txt`: Arquivo de configuração do CMake.
-5. `pequeno_guia_de_engajamento.txt`: Descrição detalhada da estrutura do projeto.
+1. `root`: Contém o código-fonte do projeto.
+2. `include/libraries`: Contém os arquivos de cabeçalho (.h).
+3. `include/modules`: Contém os modulos de implementação (.c).
+4. `build/`: Diretório de saída dos binários.
+5. `CMakeLists.txt`: Arquivo de configuração do CMake.
 
 ---
 
