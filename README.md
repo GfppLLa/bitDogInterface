@@ -101,7 +101,7 @@ Este projeto está licenciado sob a **Licença GNU**.
 
 <div align="center">
     GNUs not Unix
-```
+<pre>
         _-`````-,           ,- '- .
   .'   .- - |          | - -.  `.
  /.'  /                     `.   \
@@ -120,5 +120,5 @@ Este projeto está licenciado sob a **Licença GNU**.
                ''/''/''
                  '/'/'
                   `;
-```
+<pre>
 </div>
