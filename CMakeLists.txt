@@ -28,40 +28,49 @@ set(PICO_BOARD pico_w CACHE STRING "Board type")
 # Pull in Raspberry Pi Pico SDK (must be before project)
 include(pico_sdk_import.cmake)
 
-project(ditDogInterface C CXX ASM)
+project(bitDogInterface C CXX ASM)
 
 # Initialise the Raspberry Pi Pico SDK
 pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(ditDogInterface ditDogInterface.c )
+add_executable(bitDogInterface 
+                bitDogInterface.c 
+                include/modules/font.c
+                include/modules/func_generals.c
+                include/modules/numbers_n_array.c
+                include/modules/ssd1306.c
+                )
 
-pico_set_program_name(ditDogInterface "ditDogInterface")
-pico_set_program_version(ditDogInterface "0.1")
+pico_set_program_name(bitDogInterface "bitDogInterface")
+pico_set_program_version(bitDogInterface "0.1")
 
 # Generate PIO header
-pico_generate_pio_header(ditDogInterface ${CMAKE_CURRENT_LIST_DIR}/blink.pio)
+pico_generate_pio_header(bitDogInterface ${CMAKE_CURRENT_LIST_DIR}/pio_matrix.pio)
 
 # Modify the below lines to enable/disable output over UART/USB
-pico_enable_stdio_uart(ditDogInterface 0)
-pico_enable_stdio_usb(ditDogInterface 1)
+pico_enable_stdio_uart(bitDogInterface 0)
+pico_enable_stdio_usb(bitDogInterface 1)
 
 # Add the standard library to the build
-target_link_libraries(ditDogInterface
+target_link_libraries(bitDogInterface
         pico_stdlib)
 
 # Add the standard include files to the build
-target_include_directories(ditDogInterface PRIVATE
+target_include_directories(bitDogInterface PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}
+        ${CMAKE_CURRENT_LIST_DIR}/include
+        ${CMAKE_CURRENT_LIST_DIR}/include/modules
+        ${CMAKE_CURRENT_LIST_DIR}/include/libraries
 )
 
 # Add any user requested libraries
-target_link_libraries(ditDogInterface 
+target_link_libraries(bitDogInterface 
         hardware_i2c
         hardware_pio
         
         )
 
-pico_add_extra_outputs(ditDogInterface)
+pico_add_extra_outputs(bitDogInterface)
 
